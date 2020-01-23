@@ -7,13 +7,13 @@ namespace Features
     {
         static void Main(string[] args)
         {
-            Employee[] developers = new Employee[]
+            IEnumerable<Employee> developers = new Employee[]
             {
                 new Employee { Id = 1, Name = "vsl"},
                 new Employee { Id = 2, Name = "vsl1"}
             };
 
-            List<Employee> sales = new List<Employee>()
+            IEnumerable<Employee> sales = new List<Employee>()
             {
                 new Employee { Id = 3, Name = "vsl2"}
             };
