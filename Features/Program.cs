@@ -19,7 +19,12 @@ namespace Features
                 new Employee { Id = 3, Name = "kel"}
             };
 
-            foreach (var employee in developers.Where(e => e.Name.Length < 4).OrderBy(e => e.Name))
+            var query = from developer in developers
+                        where developer.Name.Length < 4
+                        orderby developer.Name
+                        select developer;
+
+            foreach (var employee in query)
             {
                 Console.WriteLine(employee.Name);
             } 
