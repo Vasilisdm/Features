@@ -16,6 +16,13 @@ namespace Queries
                 new Movie { Title="Star Wars V",       Rating=8.7f, Year=1980}
             };
 
+            var numbers = ExtLinq.Random().Where(n => n > 0.5).Take(10);
+
+            foreach (var number in numbers)
+            {
+                Console.WriteLine(number);
+            }
+
             var query = movies.Filter(m => m.Year > 2000).OrderByDescending(m => m.Rating);
 
             //foreach (var movie in query)
