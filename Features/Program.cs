@@ -19,7 +19,11 @@ namespace Features
                 new Employee { Id = 3, Name = "kel"}
             };
 
-            var query = from developer in developers
+            var query = developers.Where(e => e.Name.Length < 4)
+                                  .OrderByDescending(e => e.Name)
+                                  .Select(e => e);
+
+            var query2 = from developer in developers
                         where developer.Name.Length < 4
                         orderby developer.Name
                         select developer;
