@@ -12,7 +12,7 @@ namespace Queries
         {
             get
             {
-                Console.WriteLine($"Reading year for {Title}");
+                Console.WriteLine($"Reading {_year} for {Title}");
                 return _year;
             }
             set
