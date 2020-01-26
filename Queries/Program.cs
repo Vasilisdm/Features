@@ -22,7 +22,7 @@ namespace Queries
             //{
             //    Console.WriteLine(movie.Title);
             //}
-
+            var count = query.Count();
             var enumerator = query.GetEnumerator();
             while (enumerator.MoveNext())
             {
