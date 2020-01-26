@@ -19,7 +19,7 @@ namespace Features
                 new Employee { Id = 3, Name = "kel"}
             };
 
-            foreach (var employee in developers.Where(e => e.Name.StartsWith("k")))
+            foreach (var employee in developers.Where(e => e.Name.Length < 4).OrderBy(e => e.Name))
             {
                 Console.WriteLine(employee.Name);
             } 
