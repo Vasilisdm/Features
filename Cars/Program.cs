@@ -11,9 +11,12 @@ namespace Cars
         {
             var cars = ProcessFile("fuel.csv");
 
-            foreach (Car car in cars)
+            var combinedEf = cars.OrderByDescending(c => c.Combined);
+
+            Console.WriteLine("Most fuel efficient cars");
+            foreach (Car car in combinedEf.Take(10))
             {
-                Console.WriteLine(car.Name);
+                Console.WriteLine($"{car.Name} : {car.Combined}");
             }
         }
 
