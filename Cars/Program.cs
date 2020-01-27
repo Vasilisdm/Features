@@ -11,21 +11,24 @@ namespace Cars
         {
             var cars = ProcessFile("fuel.csv");
 
-            var combinedEf = cars.OrderByDescending(c => c.Combined)
-                                 .ThenBy(c => c.Name);
+            var combinedEf = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
+                                 .OrderByDescending(c => c.Combined)
+                                 .ThenBy(c => c.Name).First();
+
+            Console.WriteLine($"Most efficient BMW found in method syntax: {combinedEf.Name}");
 
             var combinedEfQuerySyntax = (from car in cars
                                         where car.Manufacturer == "BMW" && car.Year == 2016
                                         orderby car.Combined descending, car.Name ascending
                                         select car).First();
 
-            Console.WriteLine($"Most efficient BMW -> {combinedEfQuerySyntax.Name}");
+            Console.WriteLine($"Most efficient BMW found in query syntax: {combinedEfQuerySyntax.Name}");
 
-            Console.WriteLine("Most fuel efficient cars");
-            foreach (Car car in combinedEf)
-            {
-                Console.WriteLine($"{car.Name} : {car.Combined}");
-            }
+            //Console.WriteLine("Most fuel efficient cars");
+            //foreach (Car car in combinedEf)
+            //{
+            //    Console.WriteLine($"{car.Name} : {car.Combined}");
+            //}
         }
 
         private static List<Car> ProcessFile(string path)
