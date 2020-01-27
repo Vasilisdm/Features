@@ -11,7 +11,8 @@ namespace Cars
         {
             var cars = ProcessFile("fuel.csv");
 
-            var combinedEf = cars.OrderByDescending(c => c.Combined);
+            var combinedEf = cars.OrderByDescending(c => c.Combined)
+                                 .ThenBy(c => c.Name);
 
             Console.WriteLine("Most fuel efficient cars");
             foreach (Car car in combinedEf.Take(10))
