@@ -14,8 +14,12 @@ namespace Cars
             var combinedEf = cars.OrderByDescending(c => c.Combined)
                                  .ThenBy(c => c.Name);
 
+            var combinedEfQuerySyntax = from car in cars
+                                        orderby car.Combined descending, car.Name ascending
+                                        select car;
+
             Console.WriteLine("Most fuel efficient cars");
-            foreach (Car car in combinedEf.Take(10))
+            foreach (Car car in combinedEfQuerySyntax.Take(10))
             {
                 Console.WriteLine($"{car.Name} : {car.Combined}");
             }
