@@ -16,24 +16,30 @@ namespace CarExt
             var efficientBmwMethodSyntax = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
                                  .OrderByDescending(c => c.Combined)
                                  .ThenBy(c => c.Name)
+                                 .Select(c => new { c.Manufacturer, c.Name, c.Combined })
                                  .First();
 
-            Console.WriteLine($"Most efficient BMW found in method syntax: {efficientBmwMethodSyntax.Name}");
+            Console.WriteLine($"Efficient BMW(Method Syntax) {efficientBmwMethodSyntax.Manufacturer} : {efficientBmwMethodSyntax.Name} : {efficientBmwMethodSyntax.Combined}");
 
             var efficientBmwQuerySyntax = (from car in cars
                                            where car.Manufacturer == "BMW" && car.Year == 2016
                                            orderby car.Combined descending, car.Name ascending
-                                           select car).First();
+                                           select new
+                                           {
+                                               car.Manufacturer,
+                                               car.Name,
+                                               car.Combined
+                                           }).First();
 
-            Console.WriteLine($"Most efficient BMW found in query syntax: {efficientBmwQuerySyntax.Name}");
+            Console.WriteLine($"Efficient BMW(Query Syntax) {efficientBmwQuerySyntax.Manufacturer} : {efficientBmwQuerySyntax.Name} : {efficientBmwQuerySyntax.Combined}");
 
 
-            var topTeCarsCombinedEf = cars.OrderByDescending(c => c.Combined)
+            var topTenCarsCombinedEf = cars.OrderByDescending(c => c.Combined)
                                           .ThenBy(c => c.Name)
                                           .Take(10)
                                           .ToList();
-
-            foreach (Car car in topTeCarsCombinedEf)
+            Console.WriteLine("\n");
+            foreach (Car car in topTenCarsCombinedEf)
             {
                 Console.WriteLine($"{car.Name} : {car.Combined}");
             }
