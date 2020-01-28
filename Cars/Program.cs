@@ -43,15 +43,40 @@ namespace CarExt
             {
                 Console.WriteLine($"{car.Name} : {car.Combined}");
             }
+
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+
+            foreach (var manufacturer in manufacturers)
+            {
+                Console.WriteLine(manufacturer.Name);
+            }
+        }
+
+        private static List<Manufacturer> ProcessManufacturers(string path)
+        {
+            var query = File.ReadAllLines(path)
+                            .Where(line => line.Length > 1)
+                            .Select(line =>
+                                {
+                                    var manufacturerFileColumns = line.Split(",");
+                                    return new Manufacturer
+                                    {
+                                        Name = manufacturerFileColumns[0],
+                                        HeadQuarters = manufacturerFileColumns[1],
+                                        Year = int.Parse(manufacturerFileColumns[2])
+                                    };
+                                });
+
+            return query.ToList();
         }
 
         private static List<Car> ProcessCars(string path)
         {
             
             var query = File.ReadAllLines(path)
-                    .Skip(1)
-                    .Where(line => line.Length > 1)
-                    .ToCar();
+                            .Skip(1)
+                            .Where(line => line.Length > 1)
+                            .ToCar();
 
             //var query = from line in File.ReadAllLines(path).Skip(1)
             //            where (line.Length > 1)
