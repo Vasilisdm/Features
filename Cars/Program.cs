@@ -9,9 +9,9 @@ namespace CarExt
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var cars = ProcessCars("fuel.csv");
+            var cars = FileProcess.Cars("fuel.csv");
 
             var efficientBmwMethodSyntax = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
                                  .OrderByDescending(c => c.Combined)
@@ -44,7 +44,7 @@ namespace CarExt
                 Console.WriteLine($"{car.Name} : {car.Combined}");
             }
 
-            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var manufacturers = FileProcess.Manufacturers("manufacturers.csv");
 
             foreach (var manufacturer in manufacturers)
             {
