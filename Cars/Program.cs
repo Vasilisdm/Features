@@ -11,7 +11,7 @@ namespace CarExt
     {
         static void Main(string[] args)
         {
-            var cars = ProcessFile("fuel.csv");
+            var cars = ProcessCars("fuel.csv");
 
             var efficientBmwMethodSyntax = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
                                  .OrderByDescending(c => c.Combined)
@@ -45,7 +45,7 @@ namespace CarExt
             }
         }
 
-        private static List<Car> ProcessFile(string path)
+        private static List<Car> ProcessCars(string path)
         {
             
             var query = File.ReadAllLines(path)
