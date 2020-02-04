@@ -45,7 +45,7 @@ namespace CarExt
             {
                 Manufacturer = m,
                 Cars = g
-            });
+            }).OrderBy(m => m.Manufacturer.Name);
 
             foreach (var group in efficientCarsGroupedByManufacturerM)
             {
@@ -58,6 +58,7 @@ namespace CarExt
 
             var efficientCarsGroupedByManufacturer = from manufacturer in manufacturers
                                                      join car in cars on manufacturer.Name equals car.Manufacturer into carGroup
+                                                     orderby manufacturer.Name
                                                      select new
                                                      {
                                                          Manufacturer = manufacturer,
