@@ -45,12 +45,12 @@ namespace CarExt
             {
                 Manufacturer = m,
                 Cars = g
-            }).OrderBy(m => m.Manufacturer.Name);
+            }).GroupBy(m => m.Manufacturer.HeadQuarters);
 
             foreach (var group in efficientCarsGroupedByManufacturerM)
             {
-                Console.WriteLine($"{group.Manufacturer.Name} : {group.Manufacturer.HeadQuarters}");
-                foreach (var car in group.Cars.OrderByDescending(c => c.Combined).Take(3))
+                Console.WriteLine($"{group.Key}");
+                foreach (var car in group.SelectMany(g => g.Cars).OrderByDescending(c => c.Combined).Take(3))
                 {
                     Console.WriteLine($"\t{car.Name} : {car.Combined}");
                 }
