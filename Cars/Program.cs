@@ -9,6 +9,7 @@ namespace CarExt
         static void Main()
         {
             var cars = FileProcess.Cars("fuel.csv");
+            var manufacturers = FileProcess.Manufacturers("manufacturers.csv");
 
             var efficientBmwMethodSyntax = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
                                  .OrderByDescending(c => c.Combined)
@@ -18,34 +19,20 @@ namespace CarExt
 
             Console.WriteLine($"Efficient BMW(Method Syntax) {efficientBmwMethodSyntax.Manufacturer} : {efficientBmwMethodSyntax.Name} : {efficientBmwMethodSyntax.Combined}");
 
-            var efficientBmwQuerySyntax = (from car in cars
-                                           where car.Manufacturer == "BMW" && car.Year == 2016
+            var topTenEfficientCars = (from car in cars
+                                           join manufacturer in manufacturers
+                                           on car.Manufacturer equals manufacturer.Name
                                            orderby car.Combined descending, car.Name ascending
                                            select new
                                            {
-                                               car.Manufacturer,
+                                               manufacturer.HeadQuarters,
                                                car.Name,
                                                car.Combined
-                                           }).First();
+                                           }).Take(10);
 
-            Console.WriteLine($"Efficient BMW(Query Syntax) {efficientBmwQuerySyntax.Manufacturer} : {efficientBmwQuerySyntax.Name} : {efficientBmwQuerySyntax.Combined}");
-
-
-            var topTenCarsCombinedEf = cars.OrderByDescending(c => c.Combined)
-                                          .ThenBy(c => c.Name)
-                                          .Take(10)
-                                          .ToList();
-            Console.WriteLine("\n");
-            foreach (Car car in topTenCarsCombinedEf)
+            foreach (var car in topTenEfficientCars)
             {
-                Console.WriteLine($"{car.Name} : {car.Combined}");
-            }
-
-            var manufacturers = FileProcess.Manufacturers("manufacturers.csv");
-
-            foreach (var manufacturer in manufacturers)
-            {
-                Console.WriteLine(manufacturer.Name);
+                Console.WriteLine($"Efficient Cars {car.HeadQuarters} : {car.Name} : {car.Combined}");
             }
         }
     }
