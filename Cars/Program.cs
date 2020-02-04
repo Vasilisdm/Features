@@ -11,13 +11,24 @@ namespace CarExt
             var cars = FileProcess.Cars("fuel.csv");
             var manufacturers = FileProcess.Manufacturers("manufacturers.csv");
 
-            var efficientBmwMethodSyntax = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
-                                 .OrderByDescending(c => c.Combined)
-                                 .ThenBy(c => c.Name)
-                                 .Select(c => new { c.Manufacturer, c.Name, c.Combined })
-                                 .First();
+            var topTenEfficientCarsM = cars.Join(manufacturers,
+                                            c => c.Manufacturer,
+                                            m => m.Name,
+                                            (c, m) => new
+                                            {
+                                                m.HeadQuarters,
+                                                c.Name,
+                                                c.Combined
+                                            })
+                                            .OrderByDescending(c => c.Combined)
+                                            .ThenBy(c => c.Name)
+                                            .Take(10);
 
-            Console.WriteLine($"Efficient BMW(Method Syntax) {efficientBmwMethodSyntax.Manufacturer} : {efficientBmwMethodSyntax.Name} : {efficientBmwMethodSyntax.Combined}");
+            foreach (var car in topTenEfficientCarsM)
+            {
+                Console.WriteLine($"Efficient Cars {car.HeadQuarters} : {car.Name} : {car.Combined}");
+            }
+
 
             var topTenEfficientCars = (from car in cars
                                            join manufacturer in manufacturers
@@ -29,7 +40,7 @@ namespace CarExt
                                                car.Name,
                                                car.Combined
                                            }).Take(10);
-
+            Console.WriteLine("\n");
             foreach (var car in topTenEfficientCars)
             {
                 Console.WriteLine($"Efficient Cars {car.HeadQuarters} : {car.Name} : {car.Combined}");
