@@ -42,7 +42,7 @@ namespace CarExt
             //                               }).Take(10);
 
             var efficientCarsGroupedByManufacturer = from car in cars
-                                                     group car by car.Manufacturer into manufacturer
+                                                     group car by car.Manufacturer.ToUpper() into manufacturer
                                                      orderby manufacturer.Key
                                                      select manufacturer;
 
