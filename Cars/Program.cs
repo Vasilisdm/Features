@@ -41,6 +41,18 @@ namespace CarExt
             //                                   car.Combined
             //                               }).Take(10);
 
+            var efficientCarsGroupedByManufacturerM = cars.GroupBy(c => c.Manufacturer.ToUpper())
+                                                          .OrderBy(g => g.Key);
+
+            foreach (var group in efficientCarsGroupedByManufacturerM)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+            }
+
             var efficientCarsGroupedByManufacturer = from car in cars
                                                      group car by car.Manufacturer.ToUpper() into manufacturer
                                                      orderby manufacturer.Key
@@ -48,11 +60,11 @@ namespace CarExt
 
             foreach (var group in efficientCarsGroupedByManufacturer)
             {
-                Console.WriteLine(group.Key);
-                foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
-                {
-                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
-                }
+                //Console.WriteLine(group.Key);
+                //foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
+                //{
+                //    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                //}
             }
         }
     }
