@@ -60,11 +60,11 @@ namespace CarExt
 
             foreach (var group in efficientCarsGroupedByManufacturer)
             {
-                //Console.WriteLine(group.Key);
-                //foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
-                //{
-                //    Console.WriteLine($"\t{car.Name} : {car.Combined}");
-                //}
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
             }
         }
     }
