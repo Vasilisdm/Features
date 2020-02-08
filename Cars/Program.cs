@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Xml.Linq;
 using Cars;
 
 namespace CarExt
@@ -8,87 +9,9 @@ namespace CarExt
     {
         static void Main()
         {
-            var cars = FileProcess.Cars("fuel.csv");
-            var manufacturers = FileProcess.Manufacturers("manufacturers.csv");
+            var carRecords = FileProcess.Cars("fuel.csv");
 
-            // Join in method extension syntax
-            var topTenEfficientCarsM = cars.Join(manufacturers,
-                                            c => new { c.Manufacturer, c.Year },
-                                            m => new { Manufacturer = m.Name, m.Year },
-                                            (c, m) => new
-                                            {
-                                                m.HeadQuarters,
-                                                c.Name,
-                                                c.Combined
-                                            })
-                                            .OrderByDescending(c => c.Combined)
-                                            .ThenBy(c => c.Name)
-                                            .Take(10);
-            // Join in query syntax
-            var topTenEfficientCars = (from car in cars
-                                       join manufacturer in manufacturers
-                                       on new { car.Manufacturer, car.Year } equals new { Manufacturer = manufacturer.Name, manufacturer.Year }
-                                       orderby car.Combined descending, car.Name ascending
-                                       select new
-                                       {
-                                           manufacturer.HeadQuarters,
-                                           car.Name,
-                                           car.Combined
-                                       }).Take(10);
-
-            // Group join usage
-            var efficientCarsGroupedByManufacturerM = manufacturers.GroupJoin(cars, m => m.Name, c => c.Manufacturer, (m, g) => new
-            {
-                Manufacturer = m,
-                Cars = g
-            }).GroupBy(m => m.Manufacturer.HeadQuarters);
-
-            // Usage of join and putting the result into a variable in order to group by Headquarters.
-            var efficientCarsGroupedByManufacturer = from manufacturer in manufacturers
-                                                     join car in cars on manufacturer.Name equals car.Manufacturer into carGroup
-                                                     select new
-                                                     {
-                                                         Manufacturer = manufacturer,
-                                                         Cars = carGroup
-                                                     } into result
-                                                     group result by result.Manufacturer.HeadQuarters;
-
-            // Use an anonymous type to return the min,max and avg consumption grouped by Manufacturer and ordered by MaxConsumption
-            var efficiencyByManufacturer = from car in cars
-                                           group car by car.Manufacturer into carGroup
-                                           select new
-                                           {
-                                               Name = carGroup.Key,
-                                               MaxConsumption = carGroup.Max(c => c.Combined),
-                                               MinConsumption = carGroup.Min(c => c.Combined),
-                                               AvgConsumption = carGroup.Average(c => c.Combined)
-                                           } into result
-                                           orderby result.MaxConsumption descending
-                                           select result;
-
-            // Used aggregate in order not to loop 3 times in order to compute min, max and average consumptions.
-            var efficiencyAggregation = cars.GroupBy(c => c.Manufacturer)
-                                            .Select(g =>
-                                            {
-                                                var results = g.Aggregate(new CarStatistics(),
-                                                                         (acc, c) => acc.Accumulate(c),
-                                                                         acc => acc.Compute());
-                                                return new
-                                                {
-                                                    Name = g.Key,
-                                                    Min = results.Min,
-                                                    Max = results.Max,
-                                                    Avg = results.Average
-                                                };
-                                            }).OrderByDescending(r => r.Max);
-
-            foreach (var group in efficiencyAggregation)
-            {
-                Console.WriteLine($"{group.Name}");
-                Console.WriteLine($"\t Max : {group.Max}");
-                Console.WriteLine($"\t Min : {group.Min}");
-                Console.WriteLine($"\t Avg : {group.Avg}");
-            }
+            
         }
     }
 }
