@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 using CarExtensions;
 
 namespace Cars
@@ -26,6 +27,21 @@ namespace Cars
             return query.ToList();
         }
 
+        public static void CreateXML()
+        {
+            var carRecords = FileProcess.Cars("fuel.csv");
+
+            var document = new XDocument();
+            var cars = new XElement("Cars", from record in carRecords
+                                            select new XElement("Car",
+                                                new XAttribute("Name", record.Name),
+                                                new XAttribute("Combined", record.Combined),
+                                                new XAttribute("Manufacturer", record.Manufacturer))
+                                    );
+
+            document.Add(cars);
+            document.Save("Cars.xml");
+        }
 
         public static List<Car> Cars(string path)
         {
