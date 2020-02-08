@@ -26,10 +26,10 @@ namespace Cars
             return this;
         }
 
-        public int Min { get; set; }
-        public int Max { get; set; }
-        public double Average { get; set; }
-        public int Count { get; set; }
-        public int Total { get; set; }
+        public int Min { get; private set; }
+        public int Max { get; private set; }
+        public double Average { get; private set; }
+        public int Count { get; private set; }
+        public int Total { get; private set; }
     }
 }
