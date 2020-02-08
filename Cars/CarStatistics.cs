@@ -19,6 +19,13 @@ namespace Cars
             return this;
         }
 
+        public CarStatistics Compute()
+        {
+            Average = Total / Count;
+
+            return this;
+        }
+
         private int Min { get; set; }
         private int Max { get; set; }
         private double Average { get; set; }
