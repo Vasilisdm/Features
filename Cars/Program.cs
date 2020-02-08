@@ -66,12 +66,28 @@ namespace CarExt
                                            orderby result.MaxConsumption descending
                                            select result;
 
-            foreach (var group in efficiencyByManufacturer)
+            // Used aggregate in order not to loop 3 times in order to compute min, max and average consumptions.
+            var efficiencyAggregation = cars.GroupBy(c => c.Manufacturer)
+                                            .Select(g =>
+                                            {
+                                                var results = g.Aggregate(new CarStatistics(),
+                                                                         (acc, c) => acc.Accumulate(c),
+                                                                         acc => acc.Compute());
+                                                return new
+                                                {
+                                                    Name = g.Key,
+                                                    Min = results.Min,
+                                                    Max = results.Max,
+                                                    Avg = results.Average
+                                                };
+                                            }).OrderByDescending(r => r.Max);
+
+            foreach (var group in efficiencyAggregation)
             {
                 Console.WriteLine($"{group.Name}");
-                Console.WriteLine($"\t Max : {group.MaxConsumption}");
-                Console.WriteLine($"\t Min : {group.MinConsumption}");
-                Console.WriteLine($"\t Avg : {group.AvgConsumption}");
+                Console.WriteLine($"\t Max : {group.Max}");
+                Console.WriteLine($"\t Min : {group.Min}");
+                Console.WriteLine($"\t Avg : {group.Avg}");
             }
         }
     }
