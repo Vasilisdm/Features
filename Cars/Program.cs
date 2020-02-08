@@ -12,19 +12,12 @@ namespace CarExt
             var carRecords = FileProcess.Cars("fuel.csv");
 
             var document = new XDocument();
-            var cars = new XElement("Cars");
-
-            foreach (var record in carRecords)
-            {
-                var car = new XElement("Car");
-                var name = new XElement("Name", record.Name);
-                var combined = new XElement("Combined", record.Combined);
-
-                car.Add(name);
-                car.Add(combined);
-
-                cars.Add(car);
-            }
+            var cars = new XElement("Cars", from record in carRecords
+                                            select new XElement("Car",
+                                                new XAttribute("Name", record.Name),
+                                                new XAttribute("Combined", record.Combined),
+                                                new XAttribute("Manufacturer", record.Manufacturer))
+                                    );
 
             document.Add(cars);
             document.Save("Cars.xml");
