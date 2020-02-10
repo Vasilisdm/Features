@@ -26,23 +26,7 @@ namespace Cars
 
             return query.ToList();
         }
-
-        public static void CreateXML()
-        {
-            var carRecords = FileProcess.Cars("fuel.csv");
-
-            var document = new XDocument();
-            var cars = new XElement("Cars", from record in carRecords
-                                            select new XElement("Car",
-                                                new XAttribute("Name", record.Name),
-                                                new XAttribute("Combined", record.Combined),
-                                                new XAttribute("Manufacturer", record.Manufacturer))
-                                    );
-
-            document.Add(cars);
-            document.Save("Cars.xml");
-        }
-
+        
         public static List<Car> Cars(string path)
         {
 
@@ -56,6 +40,27 @@ namespace Cars
             //            select (Car.ParseFromCsv(line));
 
             return query.ToList();
+        }
+
+        public static void CreateXML()
+        {
+            var carRecords = Cars("fuel.csv");
+
+            var document = new XDocument();
+            var cars = new XElement("Cars", from record in carRecords
+                                            select new XElement("Car",
+                                                new XAttribute("Name", record.Name),
+                                                new XAttribute("Combined", record.Combined),
+                                                new XAttribute("Manufacturer", record.Manufacturer))
+                                    );
+
+            document.Add(cars);
+            document.Save("Cars.xml");
+        }
+
+        internal static void QueryXML()
+        {
+            
         }
     }
 }
