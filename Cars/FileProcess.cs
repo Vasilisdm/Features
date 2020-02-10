@@ -46,21 +46,25 @@ namespace Cars
         {
             var carRecords = Cars("fuel.csv");
 
+            var ns = (XNamespace)"http://vsl.com";
+            var ex = (XNamespace)"http://vsl.com/cars";
+
             var document = new XDocument();
-            var cars = new XElement("Cars", from record in carRecords
-                                            select new XElement("Car",
+            var cars = new XElement(ns + "Cars", from record in carRecords
+                                            select new XElement(ex + "Car",
                                                 new XAttribute("Name", record.Name),
                                                 new XAttribute("Combined", record.Combined),
                                                 new XAttribute("Manufacturer", record.Manufacturer))
                                     );
 
+            cars.Add(new XAttribute(XNamespace.Xmlns + "ex", ex));
             document.Add(cars);
-            document.Save("Cars.xml");
+            document.Save("Fuel.xml");
         }
 
         public static void QueryXML()
         {
-            var document = XDocument.Load("Cars.xml");
+            var document = XDocument.Load("Fuel.xml");
 
             var xmlQuery = from element in document.Element("Cars").Elements("Car")
                            where element.Attribute("Manufacturer").Value == "BMW"
