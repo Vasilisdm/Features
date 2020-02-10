@@ -58,9 +58,18 @@ namespace Cars
             document.Save("Cars.xml");
         }
 
-        internal static void QueryXML()
+        public static void QueryXML()
         {
-            
+            var document = XDocument.Load("Cars.xml");
+
+            var xmlQuery = from element in document.Element("Cars").Elements("Car")
+                           where element.Attribute("Manufacturer").Value == "BMW"
+                           select element.Attribute("Name").Value;
+
+            foreach (var name in xmlQuery)
+            {
+                Console.WriteLine(name);
+            }
         }
     }
 }
