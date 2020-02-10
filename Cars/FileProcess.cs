@@ -69,7 +69,7 @@ namespace Cars
             var ns = (XNamespace)"http://vsl.com";
             var ex = (XNamespace)"http://vsl.com/cars";
 
-            var xmlQuery = from element in document.Element(ns + "Cars").Elements(ex + "Car")
+            var xmlQuery = from element in document.Element(ns + "Cars")?.Elements(ex + "Car") ?? Enumerable.Empty<XElement>()
                            where element.Attribute("Manufacturer").Value == "BMW"
                            select element.Attribute("Name").Value;
 
