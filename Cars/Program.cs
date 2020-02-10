@@ -10,7 +10,7 @@ namespace CarExt
         static void Main()
         {
             FileProcess.CreateXML();
-            //FileProcess.QueryXML();
+            FileProcess.QueryXML();
         }
     }
 }
