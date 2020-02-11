@@ -35,10 +35,6 @@ namespace Cars
                             .Where(line => line.Length > 1)
                             .ToCar();
 
-            //var query = from line in File.ReadAllLines(path).Skip(1)
-            //            where (line.Length > 1)
-            //            select (Car.ParseFromCsv(line));
-
             return query.ToList();
         }
 
@@ -81,7 +77,21 @@ namespace Cars
 
         internal static void InsertData()
         {
-            throw new NotImplementedException();
+            var cars = Cars("fuel.csv");
+            var db = new CarDb();
+
+            var canConnect = db.Database.AutoTransactionsEnabled;
+            //Console.WriteLine($"can connect? {canConnect}");
+
+            if (!db.Cars.Any())
+            {
+                foreach (var car in cars)
+                {
+                    db.Cars.Add(car);
+                }
+
+                db.SaveChanges();
+            }
         }
 
         internal static void QueryData()
