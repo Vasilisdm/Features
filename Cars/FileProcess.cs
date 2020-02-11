@@ -78,5 +78,15 @@ namespace Cars
                 Console.WriteLine(name);
             }
         }
+
+        internal static void InsertData()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void QueryData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

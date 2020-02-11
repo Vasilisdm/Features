@@ -9,8 +9,8 @@ namespace CarExt
     {
         static void Main()
         {
-            InsertData();
-            QueryData();
+            FileProcess.InsertData();
+            FileProcess.QueryData();
         }
     }
 }
