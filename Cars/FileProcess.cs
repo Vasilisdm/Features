@@ -78,18 +78,20 @@ namespace Cars
         public static void InsertData()
         {
             var cars = Cars("fuel.csv");
-            var db = new CarDb();
 
-            if (!db.Cars.Any())
+            using (var db = new CarDb())
             {
-                foreach (var car in cars)
+                if (!db.Cars.Any())
                 {
-                    db.Cars.Add(car);
-                }
+                    foreach (var car in cars)
+                    {
+                        db.Cars.Add(car);
+                    }
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
-        }
+         }
 
         internal static void QueryData()
         {

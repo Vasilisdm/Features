@@ -7,7 +7,7 @@ namespace Cars
         public DbSet<Car> Cars { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-           => options.UseSqlite("Cars.db");
+           => options.UseSqlite("Data Source=Cars.db");
     }
 }
  
