@@ -87,7 +87,6 @@ namespace Cars
                     {
                         db.Cars.Add(car);
                     }
-
                 }
                 db.SaveChanges();
             }
