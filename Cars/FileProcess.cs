@@ -75,13 +75,10 @@ namespace Cars
             }
         }
 
-        internal static void InsertData()
+        public static void InsertData()
         {
             var cars = Cars("fuel.csv");
             var db = new CarDb();
-
-            var canConnect = db.Database.AutoTransactionsEnabled;
-            //Console.WriteLine($"can connect? {canConnect}");
 
             if (!db.Cars.Any())
             {
