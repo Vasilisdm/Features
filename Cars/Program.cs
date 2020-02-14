@@ -6,6 +6,7 @@ namespace CarExt
     {
         static void Main()
         {
+            
             FileProcess.InsertData();
             //FileProcess.QueryData();
         }
