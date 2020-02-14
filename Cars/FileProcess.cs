@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using CarExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cars
 {
@@ -79,18 +80,17 @@ namespace Cars
         {
             var cars = Cars("fuel.csv");
 
-            using (var db = new CarDb())
+            using var db = new CarDb();
+            if (!db.Cars.Any())
             {
-                if (!db.Cars.Any())
+                foreach (var car in cars)
                 {
-                    foreach (var car in cars)
-                    {
-                        db.Cars.Add(car);
-                    }
+                    db.Cars.Add(car);
                 }
-                db.SaveChanges();
             }
-         }
+
+            db.SaveChanges();
+        }
 
         internal static void QueryData()
         {
