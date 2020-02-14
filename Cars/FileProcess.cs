@@ -92,9 +92,19 @@ namespace Cars
             db.SaveChanges();
         }
 
-        internal static void QueryData()
+        public static void QueryData()
         {
-            throw new NotImplementedException();
+            var db = new CarDb();
+
+            var efficientCars = db.Cars.Where(c => c.Manufacturer == "BMW")
+                                       .OrderByDescending(c => c.Combined)
+                                       .ThenBy(c => c.Name)
+                                       .Take(10);
+
+            foreach (var car in efficientCars)
+            {
+                Console.WriteLine($"{car.Name} : {car.Combined}");
+            }
         }
     }
 }

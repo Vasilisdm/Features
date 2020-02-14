@@ -8,7 +8,7 @@ namespace CarExt
         {
             
             FileProcess.InsertData();
-            //FileProcess.QueryData();
+            FileProcess.QueryData();
         }
     }
 }
